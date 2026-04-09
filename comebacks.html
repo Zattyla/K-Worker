@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comebacks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --text: #50404d; --glass: rgba(255, 255, 255, 0.5); --border: rgba(255, 255, 255, 0.7); --active: #ffb2e6; --bg: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); --nav: rgba(255, 255, 255, 0.8); --input: rgba(255, 255, 255, 0.7); }
+        .dark-mode { --text: #eae2e8; --glass: rgba(45, 35, 45, 0.6); --border: rgba(255, 255, 255, 0.08); --active: #d4a5c5; --bg: linear-gradient(135deg, #241f23 0%, #31262d 100%); --nav: rgba(40, 30, 35, 0.85); --input: rgba(0, 0, 0, 0.2); }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); background-attachment: fixed; color: var(--text); margin: 0; padding: 20px 20px 100px 20px; transition: 0.3s; }
+        .glass-panel { background: var(--glass); backdrop-filter: blur(16px); border: 1px solid var(--border); border-radius: 24px; padding: 20px; margin-bottom: 20px; }
+        nav { position: fixed; bottom: 15px; left: 15px; right: 15px; display: flex; justify-content: space-around; background: var(--nav); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 20px; padding: 10px; z-index: 1000; }
+        nav a { text-decoration: none; color: var(--text); padding: 10px 8px; border-radius: 14px; font-size: 0.7rem; font-weight: 600; }
+        nav a.active { background: var(--active); color: #fff; }
+        select, input, textarea { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--input); color: var(--text); font-family: inherit; margin-bottom: 12px; outline: none; }
+        button { width: 100%; padding: 14px; border: none; border-radius: 12px; background: var(--active); color: white; font-weight: bold; cursor: pointer; }
+        .cb-card { border-left: 5px solid var(--active); background: var(--input); padding: 15px; border-radius: 15px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <script>if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');</script>
+    <nav>
+        <a href="index.html">To-Do</a>
+        <a href="gerador.html">Gerador</a>
+        <a href="galeria.html">Galeria</a>
+        <a href="grupos.html">Grupos</a>
+        <a href="portfolio.html">Portfólio</a>
+        <a href="comebacks.html" class="active">Comebacks</a>
+    </nav>
+
+    <div class="glass-panel" style="margin-top: 30px;">
+        <h2>Planejar Comeback</h2>
+        <label style="font-size: 0.8rem;">Selecionar Grupo:</label>
+        <select id="selectGrupo"></select>
+        
+        <input type="text" id="albumTitle" placeholder="Título do Álbum">
+        <input type="text" id="titleTrack" placeholder="Música Principal">
+        
+        <label style="font-size: 0.8rem;">Estilo Visual do MV:</label>
+        <select id="mvStyle">
+            <option>Cinematográfico / Storyline</option>
+            <option>Performance Focus</option>
+            <option>Minimalista / Aesthetic</option>
+            <option>Cyberpunk / Glitch</option>
+        </select>
+        
+        <button onclick="salvarComeback()">Lançar Projeto</button>
+    </div>
+
+    <div id="listaComebacks"></div>
+
+    <script>
+        function carregarGrupos() {
+            const grupos = JSON.parse(localStorage.getItem('meusGrupos')) || [];
+            const select = document.getElementById('selectGrupo');
+            grupos.forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = g.nome; opt.innerText = g.nome;
+                select.appendChild(opt);
+            });
+        }
+
+        function salvarComeback() {
+            const cb = {
+                grupo: document.getElementById('selectGrupo').value,
+                album: document.getElementById('albumTitle').value,
+                track: document.getElementById('titleTrack').value,
+                style: document.getElementById('mvStyle').value,
+                data: new Date().toLocaleDateString()
+            };
+            if(!cb.album || !cb.track) return alert("Preencha os dados do álbum!");
+            let cbs = JSON.parse(localStorage.getItem('meusComebacks')) || [];
+            cbs.push(cb);
+            localStorage.setItem('meusComebacks', JSON.stringify(cbs));
+            location.reload();
+        }
+
+        function carregarComebacks() {
+            const container = document.getElementById('listaComebacks');
+            const cbs = JSON.parse(localStorage.getItem('meusComebacks')) || [];
+            cbs.forEach((c, i) => {
+                const div = document.createElement('div'); div.className = 'glass-panel cb-card';
+                div.innerHTML = `
+                    <div style="font-size: 0.7rem; opacity: 0.6;">PROJETO DE LANÇAMENTO</div>
+                    <h3 style="margin: 5px 0;">${c.album} - ${c.grupo}</h3>
+                    <p style="margin: 0; font-size: 0.9rem;"> <b>Title:</b> ${c.track}</p>
+                    <p style="margin: 5px 0 0 0; font-size: 0.8rem; opacity: 0.8;"> <b>Visual:</b> ${c.style}</p>
+                    <button onclick="removerCB(${i})" style="background:none; border:none; color:#ffb7b2; padding:0; margin-top:10px; text-align:left; width:auto; font-size:0.7rem;">[ Arquivar Projeto ]</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+        function removerCB(i) { let cbs = JSON.parse(localStorage.getItem('meusComebacks')); cbs.splice(i, 1); localStorage.setItem('meusComebacks', JSON.stringify(cbs)); location.reload(); }
+
+        carregarGrupos();
+        carregarComebacks();
+    </script>
+</body>
+</html>
