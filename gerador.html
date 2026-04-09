@@ -10,6 +10,7 @@
         .dark-mode { --text: #eae2e8; --glass: rgba(40, 35, 45, 0.6); --border: rgba(255, 255, 255, 0.08); --active: #d4a5a5; --bg: linear-gradient(135deg, #231f24 0%, #2b2631 100%); --nav: rgba(35, 30, 40, 0.85); --input: rgba(0, 0, 0, 0.2); }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); background-attachment: fixed; color: var(--text); margin: 0; padding: 20px 20px 100px 20px; transition: 0.3s; }
         .glass-panel { background: var(--glass); backdrop-filter: blur(16px); border: 1px solid var(--border); border-radius: 24px; padding: 25px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        h1, h2, h3 { margin-top: 0; font-weight: 700; color: var(--text); }
         
         nav { position: fixed; bottom: 15px; left: 15px; right: 15px; display: flex; justify-content: flex-start; gap: 8px; background: var(--nav); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 20px; padding: 10px; z-index: 1000; overflow-x: auto; scrollbar-width: none; }
         nav::-webkit-scrollbar { display: none; }
@@ -17,7 +18,8 @@
         nav a.active { background: var(--active); color: #fff; transform: translateY(-3px); }
         
         button { width: 100%; padding: 14px; border: none; border-radius: 12px; background: var(--active); color: #fff; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .theme-btn { position: absolute; top: 20px; right: 20px; width: auto; padding: 8px 12px; border-radius: 20px; background: var(--glass); border: 1px solid var(--border); color: var(--text); font-size: 1.2rem; }
+        .theme-btn { position: absolute; top: 20px; right: 20px; width: auto; padding: 8px 12px; border-radius: 20px; background: var(--glass); border: 1px solid var(--border); color: var(--text); font-size: 1.2rem; margin: 0; }
+        
         .idol-card { background: var(--input); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-top: 15px; }
         .atributo { display: flex; justify-content: space-between; margin: 5px 0; font-size: 0.85rem; font-weight: bold; }
         .barra-fundo { width: 100%; background: var(--glass); border-radius: 5px; height: 8px; margin-bottom: 10px; overflow: hidden; border: 1px solid var(--border); }
@@ -39,47 +41,109 @@
     </nav>
 
     <div class="glass-panel" style="margin-top: 30px;">
-        <h2 style="text-align: center;">Sintetizador</h2>
+        <h2 style="text-align: center;">Sintetizador Pro</h2>
         <button onclick="gerarIdol()">Sintetizar Novo Artista</button>
+        
         <div id="resultadoIA" style="display:none;">
             <div id="cardConteudo"></div>
-            <button onclick="salvarNaGaleria()" style="background: #b2cefe; color: #333; margin-top:15px;"> Salvar na Galeria</button>
-            <div id="avisoSalvo" style="display:none; color:var(--active); font-weight:bold; text-align:center; margin-top:10px;">Artista salvo!</div>
+            <button onclick="salvarNaGaleria()" style="background: #b2cefe; color: #333; margin-top:15px;">💾 Salvar na Galeria</button>
+            <div id="avisoSalvo" style="display:none; color:var(--active); font-weight:bold; text-align:center; margin-top:10px;">Artista adicionado à agência!</div>
         </div>
     </div>
 
     <script>
         function toggleTheme() { document.body.classList.toggle('dark-mode'); localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
-        const db = [
-            {n: "Wonyoung (IVE)", g: "F"}, {n: "Rei (IVE)", g: "F"}, {n: "Gaeul (IVE)", g: "F"}, {n: "Yujin (IVE)", g: "F"}, {n: "Leeseo (IVE)", g: "F"}, {n: "Liz (IVE)", g: "F"}, {n: "Asa (BABYMONSTER)", g: "F"}, {n: "Pharita (BABYMONSTER)", g: "F"}, {n: "Ruka (BABYMONSTER)", g: "F"}, {n: "Rami (BABYMONSTER)", g: "F"}, {n: "Karina (aespa)", g: "F"}, {n: "Jennie (BLACKPINK)", g: "F"}, 
-            {n: "Chiquita (BABYMONSTER)", g: "F"}, {n: "Rora (BABYMONSTER)", g: "F"}, {n: "Giselle (aespa)", g: "F"}, {n: "Ningning (aespa)", g: "F"}, {n: "Winter (aespa)", g: "F"}, {n: "Jisoo (BLACKPINK)", g: "F"}, {n: "Rosé (BLACKPINK)", g: "F"}, {n: "Lisa (BLACKPINK)", g: "F"}, {n: "Julie (KISSOFLIFE)", g: "F"}, {n: "Natty (KISSOFLIFE)", g: "F"}, {n: "Haneul (KISSOFLIFE", g: "F"}, {n: "Belle (KISSOFLIFE)", g: "F"}!
-            {n: "Ahyeon (BABYMONSTER)", g: "F"}, {n: "Bang Chan (SKZ)", g: "M"}, {n: "Han (SKZ", g: "M"}, {n: "ChangBin (SKZ)", g: "M"}, {n: "LeeKnow (SKZ)", g: "M"}, {n: "Seungmin (SKZ)", g: "M"}, {n: "I.N (SKZ)", g: "M"}, {n: "Felix (SKZ)", g: "M"}
-            {n: "Jimin (BTS", g: "M"}, {n: "Jin (BTS)", g: "M"}, {n: "V (BTS)", g: "M"}, {n: "RM (BTS)", g: "M"}, {n: "Suga (BTS)", g: "M"}, {n: "J-hope (BTS)", g: "M"}, {n: "Hyunjin (SKZ)", g: "M"}, {n: "Jungkook (BTS)", g: "M"}, {n: "Yeonjun (TXT)", g: "M"}, {n: "San (ATEEZ)", g: "M"}
+
+        // Banco de Dados Maciço: Grupos Completos
+        const dbIdols = [
+            // BLACKPINK
+            {n: "Jisoo (BLACKPINK)", g: "F"}, {n: "Jennie (BLACKPINK)", g: "F"}, {n: "Rosé (BLACKPINK)", g: "F"}, {n: "Lisa (BLACKPINK)", g: "F"},
+            // aespa
+            {n: "Karina (aespa)", g: "F"}, {n: "Giselle (aespa)", g: "F"}, {n: "Winter (aespa)", g: "F"}, {n: "Ningning (aespa)", g: "F"},
+            // Red Velvet
+            {n: "Irene (Red Velvet)", g: "F"}, {n: "Seulgi (Red Velvet)", g: "F"}, {n: "Wendy (Red Velvet)", g: "F"}, {n: "Joy (Red Velvet)", g: "F"}, {n: "Yeri (Red Velvet)", g: "F"},
+            // BABYMONSTER
+            {n: "Ruka (BABYMONSTER)", g: "F"}, {n: "Pharita (BABYMONSTER)", g: "F"}, {n: "Asa (BABYMONSTER)", g: "F"}, {n: "Ahyeon (BABYMONSTER)", g: "F"}, {n: "Rami (BABYMONSTER)", g: "F"}, {n: "Rora (BABYMONSTER)", g: "F"}, {n: "Chiquita (BABYMONSTER)", g: "F"},
+            // IVE
+            {n: "Yujin (IVE)", g: "F"}, {n: "Gaeul (IVE)", g: "F"}, {n: "Rei (IVE)", g: "F"}, {n: "Wonyoung (IVE)", g: "F"}, {n: "Liz (IVE)", g: "F"}, {n: "Leeseo (IVE)", g: "F"},
+            // ITZY
+            {n: "Yeji (ITZY)", g: "F"}, {n: "Lia (ITZY)", g: "F"}, {n: "Ryujin (ITZY)", g: "F"}, {n: "Chaeryeong (ITZY)", g: "F"}, {n: "Yuna (ITZY)", g: "F"},
+            // TWICE
+            {n: "Nayeon (TWICE)", g: "F"}, {n: "Jeongyeon (TWICE)", g: "F"}, {n: "Momo (TWICE)", g: "F"}, {n: "Sana (TWICE)", g: "F"}, {n: "Jihyo (TWICE)", g: "F"}, {n: "Mina (TWICE)", g: "F"}, {n: "Dahyun (TWICE)", g: "F"}, {n: "Chaeyoung (TWICE)", g: "F"}, {n: "Tzuyu (TWICE)", g: "F"},
+            // NewJeans & LE SSERAFIM & NMIXX
+            {n: "Minji (NewJeans)", g: "F"}, {n: "Hanni (NewJeans)", g: "F"}, {n: "Danielle (NewJeans)", g: "F"}, {n: "Haerin (NewJeans)", g: "F"}, {n: "Hyein (NewJeans)", g: "F"},
+            {n: "Sakura (LE SSERAFIM)", g: "F"}, {n: "Chaewon (LE SSERAFIM)", g: "F"}, {n: "Yunjin (LE SSERAFIM)", g: "F"}, {n: "Kazuha (LE SSERAFIM)", g: "F"}, {n: "Eunchae (LE SSERAFIM)", g: "F"},
+            {n: "Lily (NMIXX)", g: "F"}, {n: "Haewon (NMIXX)", g: "F"}, {n: "Sullyoon (NMIXX)", g: "F"}, {n: "BAE (NMIXX)", g: "F"}, {n: "Jiwoo (NMIXX)", g: "F"}, {n: "Kyujin (NMIXX)", g: "F"},
+            
+            // BTS
+            {n: "RM (BTS)", g: "M"}, {n: "Jin (BTS)", g: "M"}, {n: "Suga (BTS)", g: "M"}, {n: "J-Hope (BTS)", g: "M"}, {n: "Jimin (BTS)", g: "M"}, {n: "V (BTS)", g: "M"}, {n: "Jungkook (BTS)", g: "M"},
+            // Stray Kids
+            {n: "Bang Chan (Stray Kids)", g: "M"}, {n: "Lee Know (Stray Kids)", g: "M"}, {n: "Changbin (Stray Kids)", g: "M"}, {n: "Hyunjin (Stray Kids)", g: "M"}, {n: "Han (Stray Kids)", g: "M"}, {n: "Felix (Stray Kids)", g: "M"}, {n: "Seungmin (Stray Kids)", g: "M"}, {n: "I.N (Stray Kids)", g: "M"},
+            // TXT & ENHYPEN
+            {n: "Yeonjun (TXT)", g: "M"}, {n: "Soobin (TXT)", g: "M"}, {n: "Beomgyu (TXT)", g: "M"}, {n: "Taehyun (TXT)", g: "M"}, {n: "Hueningkai (TXT)", g: "M"},
+            {n: "Jungwon (ENHYPEN)", g: "M"}, {n: "Heeseung (ENHYPEN)", g: "M"}, {n: "Jay (ENHYPEN)", g: "M"}, {n: "Jake (ENHYPEN)", g: "M"}, {n: "Sunghoon (ENHYPEN)", g: "M"}, {n: "Sunoo (ENHYPEN)", g: "M"}, {n: "Ni-ki (ENHYPEN)", g: "M"},
+            // SEVENTEEN
+            {n: "S.Coups (SEVENTEEN)", g: "M"}, {n: "Jeonghan (SEVENTEEN)", g: "M"}, {n: "Joshua (SEVENTEEN)", g: "M"}, {n: "Jun (SEVENTEEN)", g: "M"}, {n: "Hoshi (SEVENTEEN)", g: "M"}, {n: "Wonwoo (SEVENTEEN)", g: "M"}, {n: "Woozi (SEVENTEEN)", g: "M"}, {n: "The8 (SEVENTEEN)", g: "M"}, {n: "Mingyu (SEVENTEEN)", g: "M"}, {n: "DK (SEVENTEEN)", g: "M"}, {n: "Seungkwan (SEVENTEEN)", g: "M"}, {n: "Vernon (SEVENTEEN)", g: "M"}, {n: "Dino (SEVENTEEN)", g: "M"}
         ];
+
+        const sobrenomes = ["Kim", "Lee", "Park", "Choi", "Jung", "Kang", "Cho", "Yoon", "Jang", "Lim", "Han", "Oh", "Seo", "Shin", "Kwon", "Hwang"];
+        
+        const nomesFem = ["Jiwon", "Eunji", "Sooah", "Haeyoon", "Jiwoo", "Seoyeon", "Yeseo", "Jiyoon", "Chaeyoung", "Minseo", "Sieun", "Sua", "Yoonah", "Dami", "Gaeun", "Nayeon", "Eunha", "Haerin", "Yerin", "Sooyoung", "Jia", "Yuna", "Minji", "Hyejin"];
+        
+        const nomesMasc = ["Minjoon", "Jihoon", "Hyunwoo", "Dohyun", "Seojoon", "Eunwoo", "Siwoo", "Hajoon", "Joowon", "Taemin", "Jaehyun", "Sungmin", "Donghyuck", "Jisung", "Minho", "Seungcheol", "Jungwon", "Sunghoon", "Taehyun", "Yeonjun", "Minhyuk", "Juyeon"];
+
         let atual = null;
+
         function gerarIdol() {
             document.getElementById('avisoSalvo').style.display = 'none';
-            const f = db[Math.floor(Math.random() * db.length)];
-            const vzs = db.filter(a => a.g === f.g);
-            const v = vzs[Math.floor(Math.random() * vzs.length)];
+            
+            // Sorteia Face e Gênero
+            const face = dbIdols[Math.floor(Math.random() * dbIdols.length)];
+            const genero = face.g;
+            
+            // Filtra Voice do mesmo gênero
+            const vozes = dbIdols.filter(a => a.g === genero);
+            let voice = vozes[Math.floor(Math.random() * vozes.length)];
+            while(voice.n === face.n) voice = vozes[Math.floor(Math.random() * vozes.length)]; // Impede voz igual à face
+
+            // Seleciona nome baseado no gênero
+            const sobre = sobrenomes[Math.floor(Math.random() * sobrenomes.length)];
+            const nomeProprio = genero === "F" ? nomesFem[Math.floor(Math.random() * nomesFem.length)] : nomesMasc[Math.floor(Math.random() * nomesMasc.length)];
+
             atual = {
-                nome: ["Kim", "Lee", "Park", "Wang", "Jung", "Kang", "Choi"][Math.floor(Math.random()*3)] + " " + ["Minji", "Hyuna", "HongJoong", "Soobin", "Kaito"][Math.floor(Math.random()*5)],
-                genero: f.g, posicao: ["Main Vocal", "Main Dancer", "Visual", "All-rounder"][Math.floor(Math.random()*4)],
-                faceClaim: f.n, voiceClaim: v.n, vocal: Math.floor(Math.random()*41)+60, danca: Math.floor(Math.random()*41)+60, sp: Math.floor(Math.random()*41)+60
+                nome: sobre + " " + nomeProprio,
+                genero: genero,
+                posicao: ["Main Vocal", "Main Dancer", "Main Rapper", "Visual / Center", "Lead Vocal", "Lead Dancer", "All-rounder"][Math.floor(Math.random()*7)],
+                faceClaim: face.n,
+                voiceClaim: voice.n,
+                vocal: Math.floor(Math.random()*41)+60,
+                danca: Math.floor(Math.random()*41)+60,
+                sp: Math.floor(Math.random()*41)+60
             };
+
             document.getElementById('cardConteudo').innerHTML = `
                 <div class="idol-card">
-                    <h3 style="color:var(--active); margin:0;">${atual.nome} (${atual.genero})</h3>
-                    <p style="font-size:0.9rem;"><b>Cargo:</b> ${atual.posicao}</p>
-                    <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
-                    <p><b>Face:</b> ${atual.faceClaim}</p>
-                    <p><b>Voz:</b> ${atual.voiceClaim}</p>
+                    <h3 style="color:var(--active); margin:0;">${atual.nome} <span style="font-size: 0.8rem; opacity: 0.8;">(${atual.genero})</span></h3>
+                    <p style="font-size:0.9rem; margin-top:5px;"><b>Cargo de Destaque:</b> ${atual.posicao}</p>
+                    <hr style="border:0; border-top:1px solid var(--border); margin:15px 0;">
+                    
+                    <p style="margin:5px 0;"><b> Face Claim:</b> <br><span style="font-size: 0.85rem; opacity: 0.9;">${atual.faceClaim}</span></p>
+                    <p style="margin:10px 0 15px 0;"><b> Voice Claim:</b> <br><span style="font-size: 0.85rem; opacity: 0.9;">${atual.voiceClaim}</span></p>
+                    
                     <div class="atributo"><span>Vocal</span><span>${atual.vocal}%</span></div><div class="barra-fundo"><div class="barra-progresso" style="width:${atual.vocal}%"></div></div>
                     <div class="atributo"><span>Dança</span><span>${atual.danca}%</span></div><div class="barra-fundo"><div class="barra-progresso" style="width:${atual.danca}%"></div></div>
+                    <div class="atributo"><span>Presença de Palco</span><span>${atual.sp}%</span></div><div class="barra-fundo"><div class="barra-progresso" style="width:${atual.sp}%"></div></div>
                 </div>`;
             document.getElementById('resultadoIA').style.display = 'block';
         }
-        function salvarNaGaleria() { if(!atual) return; let gal = JSON.parse(localStorage.getItem('minhaGaleriaIdols')) || []; gal.push(atual); localStorage.setItem('minhaGaleriaIdols', JSON.stringify(gal)); document.getElementById('avisoSalvo').style.display = 'block'; }
+
+        function salvarNaGaleria() { 
+            if(!atual) return; 
+            let gal = JSON.parse(localStorage.getItem('minhaGaleriaIdols')) || []; 
+            gal.push(atual); 
+            localStorage.setItem('minhaGaleriaIdols', JSON.stringify(gal)); 
+            document.getElementById('avisoSalvo').style.display = 'block'; 
+        }
     </script>
 </body>
 </html>
