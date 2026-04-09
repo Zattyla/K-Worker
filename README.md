@@ -11,7 +11,7 @@ Bem-vindo ao **Idol Studio**, um web app completo criado para simular o gerencia
 O sistema é dividido em 7 departamentos interligados, utilizando um design moderno com *Glassmorphism*, tons pastéis e suporte nativo a **Dark Mode**.
 
 * **Dashboard (`index.html`):** Painel de controle da agência com To-Do List integrada e um sistema vital de **Backup/Restauração** global via código de segurança.
-* ** Gerador Inteligente (`gerador.html`):** O "cérebro" da agência. Sintetiza novos idols cruzando dados aleatórios com referências de artistas reais (Face e Voice Claims, respeitando o gênero) e gerando status no estilo RPG (Vocal, Dança, Presença).
+* **Gerador Inteligente (`gerador.html`):** O "cérebro" da agência. Sintetiza novos idols cruzando dados aleatórios com referências de artistas reais (Face e Voice Claims, respeitando o gênero) e gerando status no estilo RPG (Vocal, Dança, Presença).
 * **Banco de Talentos (`galeria.html`):** Lista de todos os artistas agenciados. Permite visualizar dados técnicos, copiar a ficha do idol ou demiti-lo.
 * **Debut Simulator (`grupos.html`):** Ferramenta de formação. Selecione a quantidade de membros, o gênero (Masculino, Feminino ou Misto) e o conceito. O sistema sorteia os idols e distribui os cargos oficiais do grupo automaticamente (Líder, Maknae, Main Vocal, etc.).
 * **Portfólio (`portfolio.html`):** Exibe todos os grupos oficiais da empresa de forma detalhada e organizada.
