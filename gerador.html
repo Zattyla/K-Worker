@@ -51,9 +51,10 @@
     <script>
         function toggleTheme() { document.body.classList.toggle('dark-mode'); localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
         const db = [
-            {n: "Wonyoung (IVE)", g: "F"}, {n: "Karina (aespa)", g: "F"}, {n: "Jennie (BLACKPINK)", g: "F"}, 
-            {n: "Hanni (NewJeans)", g: "F"}, {n: "Ahyeon (BABYMONSTER)", g: "F"}, {n: "Bang Chan (SKZ)", g: "M"}, 
-            {n: "Hyunjin (SKZ)", g: "M"}, {n: "Jungkook (BTS)", g: "M"}, {n: "Yeonjun (TXT)", g: "M"}, {n: "San (ATEEZ)", g: "M"}
+            {n: "Wonyoung (IVE)", g: "F"}, {n: "Rei (IVE)", g: "F"}, {n: "Gaeul (IVE)", g: "F"}, {n: "Yujin (IVE)", g: "F"}, {n: "Leeseo (IVE)", g: "F"}, {n: "Liz (IVE)", g: "F"}, {n: "Asa (BABYMONSTER)", g: "F"}, {n: "Pharita (BABYMONSTER)", g: "F"}, {n: "Ruka (BABYMONSTER)", g: "F"}, {n: "Rami (BABYMONSTER)", g: "F"}, {n: "Karina (aespa)", g: "F"}, {n: "Jennie (BLACKPINK)", g: "F"}, 
+            {n: "Chiquita (BABYMONSTER)", g: "F"}, {n: "Rora (BABYMONSTER)", g: "F"}, {n: "Giselle (aespa)", g: "F"}, {n: "Ningning (aespa)", g: "F"}, {n: "Winter (aespa)", g: "F"}, {n: "Jisoo (BLACKPINK)", g: "F"}, {n: "Rosé (BLACKPINK)", g: "F"}, {n: "Lisa (BLACKPINK)", g: "F"}, {n: "Julie (KISSOFLIFE)", g: "F"}, {n: "Natty (KISSOFLIFE)", g: "F"}, {n: "Haneul (KISSOFLIFE", g: "F"}, {n: "Belle (KISSOFLIFE)", g: "F"}!
+            {n: "Ahyeon (BABYMONSTER)", g: "F"}, {n: "Bang Chan (SKZ)", g: "M"}, {n: "Han (SKZ", g: "M"}, {n: "ChangBin (SKZ)", g: "M"}, {n: "LeeKnow (SKZ)", g: "M"}, {n: "Seungmin (SKZ)", g: "M"}, {n: "I.N (SKZ)", g: "M"}, {n: "Felix (SKZ)", g: "M"}
+            {n: "Jimin (BTS", g: "M"}, {n: "Jin (BTS)", g: "M"}, {n: "V (BTS)", g: "M"}, {n: "RM (BTS)", g: "M"}, {n: "Suga (BTS)", g: "M"}, {n: "J-hope (BTS)", g: "M"}, {n: "Hyunjin (SKZ)", g: "M"}, {n: "Jungkook (BTS)", g: "M"}, {n: "Yeonjun (TXT)", g: "M"}, {n: "San (ATEEZ)", g: "M"}
         ];
         let atual = null;
         function gerarIdol() {
@@ -62,7 +63,7 @@
             const vzs = db.filter(a => a.g === f.g);
             const v = vzs[Math.floor(Math.random() * vzs.length)];
             atual = {
-                nome: ["Kim", "Lee", "Park"][Math.floor(Math.random()*3)] + " " + ["Minji", "Sora", "Kaito"][Math.floor(Math.random()*3)],
+                nome: ["Kim", "Lee", "Park", "Wang", "Jung", "Kang", "Choi"][Math.floor(Math.random()*3)] + " " + ["Minji", "Hyuna", "HongJoong", "Soobin", "Kaito"][Math.floor(Math.random()*5)],
                 genero: f.g, posicao: ["Main Vocal", "Main Dancer", "Visual", "All-rounder"][Math.floor(Math.random()*4)],
                 faceClaim: f.n, voiceClaim: v.n, vocal: Math.floor(Math.random()*41)+60, danca: Math.floor(Math.random()*41)+60, sp: Math.floor(Math.random()*41)+60
             };
